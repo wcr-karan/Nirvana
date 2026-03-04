@@ -1,25 +1,28 @@
 {
   "name": "nirvana",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Nirvana CLI - A powerful, OOP-based multi-tool",
+  "type": "module",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Karan Thakur",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "commander": "^14.0.3"
+    "axios": "^1.6.0",
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "fs-extra": "^11.1.1"
   },
   "devDependencies": {
-    "@types/node": "^25.3.1",
-    "nodemon": "^3.1.14",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.8.10",
+    "typescript": "^5.2.2"
   },
   "bin": {
-	  "mycli": "./dist/index.js"
-	}
+    "mycli": "dist/index.js"
+  }
 }
