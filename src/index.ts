@@ -22,7 +22,6 @@ program
 
 const registry = new CommandRegistry(program);
 
-// Register 10 mandatory commands
 registry.register(new GreetCommand());
 registry.register(new FileInfoCommand());
 registry.register(new GitHubCommand());

@@ -24,7 +24,6 @@ export class QuoteCommand extends BaseCommand {
             console.log(chalk.italic(`"${data.content}"`));
             console.log(chalk.bold(`- ${data.author}\n`));
         } catch (error: any) {
-            // Fallback since quotable API can be flaky
             console.log(chalk.italic(`"The only way to do great work is to love what you do."`));
             console.log(chalk.bold(`- Steve Jobs (Fallback)\n`));
         }

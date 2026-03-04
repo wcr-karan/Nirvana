@@ -18,7 +18,6 @@ export class WeatherCommand extends BaseCommand {
     async execute(city: string): Promise<void> {
         try {
             console.log(chalk.yellow(`\nChecking weather for ${chalk.bold(city)}...`));
-            // Using wttr.in for simple weather API that doesn't require keys for basic use
             const response = await axios.get(`https://wttr.in/${city}?format=j1`);
             const data = response.data.current_condition[0];
             const area = response.data.nearest_area[0];
