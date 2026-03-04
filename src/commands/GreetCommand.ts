@@ -15,6 +15,6 @@ export class GreetCommand extends BaseCommand {
     }
 
     execute(name: string): void {
-        console.log(chalk.green(`Hello, ${chalk.bold(name)}! Welcome to Nirvana CLI. ✨`));
+        console.log(chalk.green(`Hello, ${chalk.bold(name)}! Welcome to Nirvana CLI.`));
     }
 }

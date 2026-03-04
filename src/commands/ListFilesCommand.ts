@@ -24,9 +24,9 @@ export class ListFilesCommand extends BaseCommand {
             for (const file of files) {
                 const stats = await fs.stat(file);
                 if (stats.isDirectory()) {
-                    console.log(`${chalk.blue.bold('📁 ' + file)}`);
+                    console.log(`${chalk.blue.bold('[Dir]  ' + file)}`);
                 } else {
-                    console.log(`${chalk.white('📄 ' + file)}`);
+                    console.log(`${chalk.white('[File] ' + file)}`);
                 }
             }
             console.log(chalk.gray('-----------------------------------------\n'));

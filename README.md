@@ -1,8 +1,8 @@
-# Nirvana CLI Tool 🚀
+# Nirvana CLI Tool
 
 A powerful, fully-functional CLI tool built with **Node.js** and **TypeScript**, following **Object-Oriented Programming (OOP)** principles.
 
-## ✨ Features
+## Features
 
 - **OOP Architecture**: Clean, extensible command-based structure using `BaseCommand` and `CommandRegistry`.
 - **API Integrations**: Real-time data from 3 different APIs (GitHub, Weather, Quotes).
@@ -10,7 +10,7 @@ A powerful, fully-functional CLI tool built with **Node.js** and **TypeScript**,
 - **Rich UI**: Colored output using `chalk` and formatted tables/lines.
 - **Robust Error Handling**: Validation and fallback mechanisms for API requests.
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 1. **Clone the repository**:
    ```bash
@@ -35,7 +35,7 @@ A powerful, fully-functional CLI tool built with **Node.js** and **TypeScript**,
    npm link
    ```
 
-## 📜 Available Commands
+## Available Commands
 
 | Command | Usage | Description |
 |---------|-------|-------------|
@@ -52,7 +52,7 @@ A powerful, fully-functional CLI tool built with **Node.js** and **TypeScript**,
 | `version` | `mycli --version` | Show current tool version |
 | `help` | `mycli --help` | Show list of all available commands |
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```text
 src/
@@ -66,9 +66,9 @@ src/
 └── index.ts                # Entry Point
 ```
 
-## 🤝 Contributing
+## Contributing
 
 Feel free to open issues or submit pull requests to enhance the tool!
 
 ---
-Made with ❤️ by Karan
+Made with love by Karan
