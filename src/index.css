@@ -1,0 +1,356 @@
+/* ============================================================
+   Karan Thakur — Portfolio  ·  "Cinematic Dark / The One-Sheet Wall"
+   Crimson + gold on warm black. The hero's canvas brush-reveal is
+   the centerpiece; the rest of the site is printed matter from the
+   same film: one-sheet posters, billing blocks, a rating card.
+   ============================================================ */
+
+:root {
+  /* ---- Color (OKLCH source of truth) ---- */
+  --bg:        oklch(0.155 0.012 40);   /* warm near-black stage */
+  --bg-deep:   oklch(0.125 0.01 40);    /* recessed scenes */
+  --bg-raise:  oklch(0.205 0.014 40);   /* raised surfaces */
+  --paper:     oklch(0.225 0.016 45);   /* poster stock: darker than ink, brighter than stage */
+  --ink:       oklch(0.94 0.012 70);    /* warm off-white text */
+  --ink-soft:  oklch(0.74 0.018 65);    /* secondary text */
+  --line:      oklch(0.94 0.012 70 / 0.16);
+  --line-strong: oklch(0.94 0.012 70 / 0.32);
+
+  --crimson:      oklch(0.55 0.225 25);
+  --crimson-deep: oklch(0.45 0.21 25);    /* reference #C0001A */
+  --gold:         oklch(0.73 0.095 82);   /* reference #C9A44A */
+  --gold-soft:    oklch(0.82 0.1 84);
+
+  /* raw rgb for rgba() composites — matches hero gold #C9A44A and
+     crimson #C0001A so every layer reads as one graded set */
+  --crimson-rgb: 192, 0, 26;
+  --gold-rgb:    201, 164, 74;
+  --ink-rgb:     242, 234, 221;
+
+  /* ---- Type ---- */
+  --font-display: 'Anton', 'Arial Narrow', sans-serif;
+  --font-serif:   'Cormorant Garamond', 'Georgia', serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  --step-hero: clamp(3.75rem, 13vw, 6rem);
+  --step-h2:   clamp(2.5rem, 7vw, 4.5rem);
+  --step-h3:   clamp(1.75rem, 3.5vw, 2.5rem);
+  --step-lead: clamp(1.2rem, 2.2vw, 1.6rem);
+  --step-body: 1.1875rem;
+  --step-meta: 0.8125rem;
+  /* print micro steps — decorative/billing matter only, never load-bearing */
+  --step-bill:    0.6875rem;  /* 11px: billing names */
+  --step-bill-sm: 0.5625rem;  /* 9px: slugs, roles, strips (aria-hidden) */
+
+  /* ---- Space ---- */
+  --gutter: clamp(1.25rem, 5vw, 6rem);
+  --section-y: clamp(5rem, 12vh, 9rem);
+  --maxw: 1280px;
+
+  /* ---- Radius ---- */
+  --r-sm: 3px;
+  --r-md: 8px;
+  --r-pill: 999px;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-wipe: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---- Z scale (semantic) ---- */
+  --z-keylight: 0;
+  --z-canvas: 0;
+  --z-content: 10;
+  --z-grain: 60;
+  --z-nav: 100;
+  --z-skip: 200;
+
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  /* native instant scroll: a recruiter clicking PROJECTS pays zero
+     animation penalty. Anchors land cleanly via scroll-margin. */
+}
+[id] { scroll-margin-top: 84px; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: var(--step-body);
+  font-weight: 500;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img, svg, canvas { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+::selection { background: var(--crimson); color: var(--ink); }
+
+/* ---- Type primitives ---- */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--step-meta);
+  letter-spacing: 0.04em;
+}
+
+.prose {
+  max-width: 60ch;
+  text-wrap: pretty;
+  color: var(--ink-soft);
+}
+.prose strong { color: var(--ink); font-weight: 600; }
+.prose em { font-style: italic; color: var(--ink); }
+
+/* ---- Layout helpers ---- */
+.shell {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.section { padding-block: var(--section-y); position: relative; }
+
+/* crimson/gold hairline used to top the hero + detail pages */
+.accent-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--crimson), var(--gold), transparent);
+}
+
+/* shared hero title glow: red drop + crimson bloom (matches Hero .st-title) */
+.cine-glow {
+  text-shadow:
+    3px 3px 0 #7a000f,
+    0 0 14px rgba(192, 0, 26, 0.55),
+    0 0 34px rgba(192, 0, 26, 0.32);
+}
+
+/* ============================================================
+   PRINT MATTER — the One-Sheet Wall's shared grammar
+   ============================================================ */
+
+/* printer's slug line: spliced between scenes. Decorative
+   (aria-hidden in markup); registration crosses set in the markup. */
+.print-slug {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1em;
+  padding-block: clamp(1.6rem, 4vh, 2.8rem);
+  font-family: var(--font-mono);
+  font-size: var(--step-bill-sm);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: oklch(0.94 0.012 70 / 0.38);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.print-slug::before,
+.print-slug::after {
+  content: '✕';
+  letter-spacing: 0;
+  font-size: 0.625rem;
+  color: oklch(0.94 0.012 70 / 0.3);
+}
+
+/* crop/trim marks: hairlines aligned with the content edges, drawn
+   just outside the corners — the print-frame replacement for the old
+   film-gate brackets. Apply to a relatively-positioned frame. */
+.trims { position: relative; }
+.trims::after {
+  content: '';
+  position: absolute;
+  inset: -16px;
+  pointer-events: none;
+  --tm: oklch(0.94 0.012 70 / 0.34);
+  background:
+    /* top-left */
+    linear-gradient(var(--tm), var(--tm)) 0 15px / 11px 1px no-repeat,
+    linear-gradient(var(--tm), var(--tm)) 15px 0 / 1px 11px no-repeat,
+    /* top-right */
+    linear-gradient(var(--tm), var(--tm)) right 0 top 15px / 11px 1px no-repeat,
+    linear-gradient(var(--tm), var(--tm)) right 15px top 0 / 1px 11px no-repeat,
+    /* bottom-left */
+    linear-gradient(var(--tm), var(--tm)) 0 bottom 15px / 11px 1px no-repeat,
+    linear-gradient(var(--tm), var(--tm)) 15px bottom 0 / 1px 11px no-repeat,
+    /* bottom-right */
+    linear-gradient(var(--tm), var(--tm)) right 0 bottom 15px / 11px 1px no-repeat,
+    linear-gradient(var(--tm), var(--tm)) right 15px bottom 0 / 1px 11px no-repeat;
+  background-position:
+    left 0 top 15px, left 15px top 0,
+    right 0 top 15px, right 15px top 0,
+    left 0 bottom 15px, left 15px bottom 0,
+    right 0 bottom 15px, right 15px bottom 0;
+}
+
+/* a scene recessed below stage level — hard edges, no gradient.
+   Translucent so the travelling KeyLight still glows through. */
+.scene-deep {
+  background: oklch(0.09 0.008 40 / 0.5);
+}
+
+/* ---- Cinematic link ---- */
+.link {
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -3px;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-out);
+}
+.link:hover::after,
+.link:focus-visible::after { transform: scaleX(1); }
+
+/* ---- Buttons ---- */
+.btn {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 1em 1.7em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  clip-path: polygon(7px 0, 100% 0, calc(100% - 7px) 100%, 0 100%);
+  transition: color 0.35s var(--ease-wipe);
+}
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--crimson);
+  transform: translateX(-101%) skewX(-8deg);
+  transition: transform 0.42s var(--ease-wipe);
+}
+.btn:hover::after,
+.btn:focus-visible::after { transform: translateX(0) skewX(-8deg); }
+
+.btn-solid {
+  background: var(--crimson-deep);
+  color: #fff;
+}
+.btn-solid::after { background: var(--gold); }
+.btn-solid:hover, .btn-solid:focus-visible { color: var(--bg); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--crimson);
+}
+.btn-ghost:hover, .btn-ghost:focus-visible { color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn::after { transition: none; }
+  .btn-solid:hover, .btn-solid:focus-visible { background: var(--gold); color: var(--bg); }
+  .btn-ghost:hover { background: var(--crimson); }
+  .btn:hover::after { transform: translateX(-101%); }
+}
+
+/* ---- Focus ---- */
+:focus-visible {
+  outline: 2.5px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   Scroll reveal (visible by default; never gates content).
+   Variants: fade (default) · pinup (posters settle onto the wall)
+   · stamp (the rating card's approval stamp).
+   ============================================================ */
+.reveal { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  }
+  .reveal.is-in { opacity: 1; transform: none; }
+
+  /* posters get pinned up: a 0.8deg settle onto their rest angle */
+  .reveal.reveal-pinup {
+    transform: rotate(calc(var(--rest, 0deg) - 0.8deg));
+    transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  }
+  .reveal.reveal-pinup.is-in { transform: rotate(var(--rest, 0deg)); }
+
+  /* the stamp slams in: big and loose -> seated at its rest angle */
+  .reveal.reveal-stamp {
+    transform: scale(1.6) rotate(calc(var(--rest, -4deg) + 6deg));
+    transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+  }
+  .reveal.reveal-stamp.is-in { transform: scale(1) rotate(var(--rest, -4deg)); }
+}
+/* rest angles are layout, not motion: hold them when reveals are off */
+@media (prefers-reduced-motion: reduce) {
+  .reveal.reveal-pinup { transform: rotate(var(--rest, 0deg)); }
+  .reveal.reveal-stamp { transform: rotate(var(--rest, -4deg)); }
+}
+
+/* ---- Grain overlay (film grain on dark) ---- */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-grain);
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Skip link */
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: var(--z-skip);
+  background: var(--gold);
+  color: var(--bg);
+  padding: 0.7em 1.1em;
+  font-family: var(--font-mono);
+  font-size: var(--step-meta);
+}
+.skip:focus { left: 1rem; top: 1rem; }
