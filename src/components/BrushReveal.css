@@ -1,0 +1,78 @@
+.br {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  width: 100%;
+  background: var(--bg-raise);
+  border-radius: var(--r-sm);
+}
+
+.br-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.br-reveal { z-index: 1; }
+.br-cover  { z-index: 2; }
+.br-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+/* ---- canvas mode: the canvas paints both layers ---- */
+.br[data-mode='canvas'] .br-reveal { opacity: 0; }
+.br[data-mode='canvas'] .br-cover  { opacity: 1; }
+
+/* ---- hover mode (reduced motion, fine pointer): crossfade ---- */
+.br[data-mode='hover'] .br-cover {
+  opacity: 1;
+  transition: opacity 0.25s var(--ease-wipe);
+}
+.br[data-mode='hover']:hover .br-cover,
+.br[data-mode='hover']:focus-within .br-cover { opacity: 0; }
+
+/* ---- static mode (touch): show the work ---- */
+.br[data-mode='static'] .br-cover { opacity: 0; }
+
+/* ---- brush hint ---- */
+.br-hint {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  padding: 0.5em 0.85em;
+  background: oklch(0.125 0.01 40 / 0.72);
+  color: var(--gold-soft);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease-out);
+}
+.br-hint::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 4px oklch(0.79 0.115 85 / 0.22);
+}
+.br:hover .br-hint { opacity: 0; }
+
+/* ---- content overlay ---- */
+.br-content {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+.br-content > * { pointer-events: auto; }
