@@ -1,0 +1,196 @@
+.hero {
+  position: relative;
+  height: 100svh;
+  min-height: 600px;
+  overflow: hidden;
+  background: var(--bg-deep);
+  isolation: isolate;
+}
+
+/* gold/red top accent line (from the reference) */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  z-index: 20;
+  background: linear-gradient(90deg, transparent, #c9a44a, #c0001a, #c9a44a, transparent);
+}
+
+/* ---- canvas reveal fills the hero ---- */
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+}
+/* reduced-motion fallback: stacked images, crossfade on hover/focus */
+.hero-fallback img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-fallback-cover { opacity: 1; transition: opacity 0.25s ease; }
+.hero:hover .hero-fallback-cover { opacity: 0; }
+/* touch: the reveal (the work) shows by default */
+.hero-fallback.is-touch .hero-fallback-cover { opacity: 0; }
+
+/* ---- content over the canvas ---- */
+.hero-content {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.hero-side { position: absolute; display: flex; flex-direction: column; }
+
+.left {
+  left: var(--gutter);
+  bottom: clamp(2.5rem, 8vh, 4.5rem);
+  width: min(360px, 74vw);
+  gap: 1.2rem;
+}
+.right {
+  right: var(--gutter);
+  bottom: clamp(5rem, 16vh, 8rem);
+  width: min(380px, 74vw);
+  align-items: flex-end;
+  text-align: right;
+  gap: 1.1rem;
+}
+
+/* eyebrow — mono caps in gold with a leading rule */
+.st-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #c9a44a;
+  padding-left: 1.6rem;
+  position: relative;
+}
+.st-eyebrow::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.1rem;
+  height: 1.5px;
+  background: #c9a44a;
+}
+.right-eyebrow { padding-left: 0; padding-right: 1.6rem; color: #ff4455; }
+.right-eyebrow::before { left: auto; right: 0; background: #ff4455; }
+
+/* title — Anton with the reference's red glow */
+.st-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 7.5vw, 4.75rem);
+  font-weight: 400;
+  color: #fff;
+  text-transform: uppercase;
+  line-height: 0.96;
+  letter-spacing: 0.005em;
+  text-shadow:
+    3px 3px 0 #7a000f,
+    0 0 14px rgba(192, 0, 26, 0.6),
+    0 0 34px rgba(192, 0, 26, 0.32);
+}
+
+.st-desc, .st-text {
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.9);
+}
+
+/* button — mono, clip-path, red wipe (from the reference) */
+.st-btn {
+  pointer-events: auto;
+  align-self: flex-start;
+  margin-top: 0.4rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.95em 1.6em;
+  color: #fff;
+  background: transparent;
+  border: 1.5px solid #c0001a;
+  clip-path: polygon(7px 0%, 100% 0%, calc(100% - 7px) 100%, 0% 100%);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: border-color 0.3s ease;
+}
+.right .st-btn { align-self: flex-end; }
+.st-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #c0001a;
+  transform: translateX(-105%) skewX(-6deg);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.st-btn:hover, .st-btn:focus-visible { border-color: #e8001f; }
+.st-btn:hover::after, .st-btn:focus-visible::after { transform: translateX(0) skewX(-6deg); }
+
+/* brush hint */
+.hero-hint {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(2rem, 5vh, 3rem);
+  transform: translateX(-50%);
+  z-index: 12;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* the billing strip: print matter seeded at the bottom of the frame */
+.hero-billing {
+  position: absolute;
+  left: 50%;
+  bottom: 0.8rem;
+  transform: translateX(-50%);
+  z-index: 12;
+  font-size: var(--step-bill-sm);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.42);
+  pointer-events: none;
+}
+
+@media (max-width: 820px) {
+  .hero-content {
+    inset: auto 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 0 var(--gutter) clamp(4.5rem, 14vh, 7rem);
+  }
+  .hero-side { position: static; width: auto; max-width: 30ch; }
+  .right { align-items: flex-start; text-align: left; }
+  .right .st-btn { align-self: flex-start; }
+  .right-eyebrow { padding-left: 1.6rem; padding-right: 0; }
+  .right-eyebrow::before { left: 0; right: auto; }
+  .hero-billing { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .st-btn::after { transition: none; }
+  .hero-fallback-cover { transition: none; }
+}
