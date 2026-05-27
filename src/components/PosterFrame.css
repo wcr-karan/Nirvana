@@ -1,0 +1,313 @@
+/* ============================================================
+   PosterFrame — a printed one-sheet (27×40) on the dark stage.
+   Anatomy: strip · art · key-art window · tagline · stamp+billing
+   · slug, trim marks outside the corners. Art is bespoke per
+   project; everything else is the shared press-sheet system.
+   ============================================================ */
+
+.sheet {
+  position: relative;
+  /* cap to ~82vh of poster, but floor at 440px so short laptop
+     viewports don't shrink the sheet to a stamp in a wide column */
+  width: min(100%, max(440px, calc(82svh * 0.675)));
+  margin-inline: auto;
+}
+
+/* deep hover shadow, pre-rendered and crossfaded (no blur animation) */
+.sheet::before {
+  content: '';
+  position: absolute;
+  inset: 14% 7% -12px 7%;
+  box-shadow: 0 52px 70px -18px rgba(0, 0, 0, 0.85);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-out);
+  pointer-events: none;
+}
+.sheet:hover::before { opacity: 1; }
+
+.sheet-paper {
+  position: relative;
+  aspect-ratio: 27 / 40;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(120% 60% at 50% -8%, rgba(var(--gold-rgb), 0.07), transparent 60%),
+    var(--paper);
+  border: 1px solid var(--line-strong);
+  box-shadow:
+    0 26px 50px -28px rgba(0, 0, 0, 0.8),
+    inset 0 0 60px -20px rgba(0, 0, 0, 0.55);
+  container-type: inline-size;
+  transition: transform 0.35s var(--ease-out), border-color 0.35s ease;
+}
+.sheet:hover .sheet-paper { transform: translateY(-6px); border-color: rgba(var(--acc-rgb), 0.5); }
+
+/* ---- top strip ---- */
+.sheet-strip {
+  padding: 4.2cqw 0 3cqw;
+  text-align: center;
+  font-size: clamp(0.5625rem, 2.4cqw, 0.625rem); /* 9px floor (print micro) */
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: oklch(0.94 0.012 70 / 0.5);
+}
+
+/* ---- art zone (bespoke) ---- */
+.sheet-art {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 24cqw;
+  overflow: hidden;
+}
+
+.sa-title {
+  color: var(--ink);
+  line-height: 0.84;
+  letter-spacing: 0.01em;
+}
+
+/* 01 — Indian Monitor: stacked title, a dotted gold signal trace climbing
+   to a pulsing endpoint */
+.sheet-indian-monitor .sa-title {
+  position: absolute;
+  inset: 2cqw 0 auto 6cqw;
+  display: flex;
+  flex-direction: column;
+  font-size: 19cqw;
+}
+.sa-route {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 02 — Legal Analyzer: a section mark knocked out of a solid gold field.
+   The § is anchored to the top and capped so its line box clears the
+   title at every art-zone height; both knockouts share one dark. */
+.sheet-legal-analyzer .sheet-art { background: var(--acc); }
+.sa-field {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(90% 70% at 50% 0%, rgba(255, 255, 255, 0.14), transparent 55%);
+}
+.sa-query {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  justify-items: center;
+  align-items: start;
+  padding-top: 0.5cqw;
+  font-size: 28cqw;
+  line-height: 1;
+  color: var(--paper);
+}
+.sa-title-dark {
+  position: absolute;
+  left: 0; right: 0; bottom: 3cqw;
+  text-align: center;
+  font-size: 11cqw;
+  color: var(--paper);
+}
+
+/* 03 — Skill-Swap: the title and its echo. z-index: 0 gives the title its
+   own stacking context so the negative-z echo paints between the paper
+   and the solid title instead of vanishing behind the sheet. The wire
+   below reads as the connection between two matched people. */
+.sheet-skill-swap .sa-title {
+  position: absolute;
+  left: 6cqw;
+  top: 7cqw;
+  z-index: 0;
+  font-size: 17.5cqw;
+}
+.sa-echo::after {
+  content: attr(data-echo);
+  position: absolute;
+  left: 0.15em;
+  top: 0.12em;
+  z-index: -1;
+  color: var(--ink);
+  opacity: 0.17;
+}
+.sa-wire {
+  position: absolute;
+  left: 6cqw;
+  right: 6cqw;
+  bottom: 6cqw;
+  height: 1.5px;
+  background: linear-gradient(90deg, rgba(var(--gold-rgb), 0.7), rgba(var(--gold-rgb), 0.12));
+}
+.sa-wire::before,
+.sa-wire::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background: var(--gold);
+}
+.sa-wire::before { left: 0; }
+.sa-wire::after { right: 0; opacity: 0.45; }
+
+/* ---- key-art window: still behind a printed curtain ---- */
+.sheet-window {
+  position: relative;
+  width: 80%;
+  margin: 3.4cqw auto 0;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background: #171210;
+  z-index: 2;
+}
+.sheet-window > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.sheet-curtain {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.3)),
+    var(--paper);
+  box-shadow: inset 0 0 0 1px var(--line);
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.55s var(--ease-wipe);
+}
+.sc-letter {
+  font-size: 17cqw;
+  color: oklch(0.94 0.012 70 / 0.1);
+  line-height: 1;
+}
+.sc-label {
+  position: absolute;
+  bottom: 7%;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: clamp(0.5625rem, 2.2cqw, 0.625rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: oklch(0.94 0.012 70 / 0.45);
+}
+/* curtain rises: on hover, while auto-peeking, or when flipped to still */
+.sheet:hover .sheet-curtain,
+.sheet.is-peek .sheet-curtain,
+.sheet.is-still .sheet-curtain { clip-path: inset(0 0 100% 0); }
+
+.sheet-flip {
+  position: absolute;
+  right: 7px;
+  bottom: 7px;
+  z-index: 3;
+  padding: 0.5em 0.85em;
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: oklch(0.125 0.01 40 / 0.85);
+  border: 1px solid var(--line-strong);
+  opacity: 0;
+  transition: opacity 0.25s ease, background-color 0.25s ease;
+}
+.sheet:hover .sheet-flip,
+.sheet-flip:focus-visible,
+.sheet.is-still .sheet-flip { opacity: 1; }
+.sheet-flip:hover { background: oklch(0.205 0.014 40 / 0.95); }
+/* touch: the button is the whole story — always visible */
+@media (hover: none) {
+  .sheet-flip { opacity: 1; }
+}
+
+/* ---- tagline ---- */
+.sheet-tagline {
+  padding: 3.2cqw 8% 0;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(0.85rem, 4.6cqw, 1.35rem);
+  line-height: 1.25;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+/* ---- stamp + billing ---- */
+.sheet-foot {
+  display: flex;
+  flex-wrap: wrap; /* narrow paper: billing drops under the stamp */
+  align-items: flex-end;
+  gap: 2.5cqw 4cqw;
+  padding: 3.6cqw 6% 0;
+}
+.sheet-stamp {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: stretch;
+  border: 1.5px solid rgba(var(--acc-rgb), 0.85);
+  transform: rotate(-2deg);
+  background: rgba(var(--acc-rgb), 0.07);
+}
+.sheet-stamp b {
+  display: grid;
+  place-items: center;
+  padding: 0.5cqw 2.2cqw;
+  font-size: 7.5cqw;
+  font-weight: 400;
+  color: var(--ink);
+  border-right: 1.5px solid rgba(var(--acc-rgb), 0.85);
+}
+.sheet-stamp > span {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.6cqw;
+  padding: 1.6cqw 2.4cqw;
+  font-family: var(--font-mono);
+  font-size: clamp(0.5625rem, 2.1cqw, 0.625rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  line-height: 1.3;
+}
+.sheet-stamp > span em {
+  font-style: normal;
+  font-weight: 500;
+  color: var(--ink);
+}
+.sheet-billing {
+  flex: 1 1 12rem;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: clamp(0.5625rem, 2cqw, 0.625rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.6;
+  text-align: right;
+  color: oklch(0.94 0.012 70 / 0.42);
+}
+
+/* ---- slug ---- */
+.sheet-slug {
+  display: block;
+  padding: 3cqw 0 3.4cqw;
+  text-align: center;
+  font-size: clamp(0.5625rem, 2.2cqw, 0.625rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: oklch(0.94 0.012 70 / 0.34);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* still reachable: hover/flip swap instantly (blanket kills the wipe) */
+  .sheet:hover .sheet-paper { transform: none; }
+}
