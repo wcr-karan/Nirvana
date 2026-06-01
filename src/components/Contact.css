@@ -1,0 +1,171 @@
+.contact {
+  position: relative;
+  padding-bottom: clamp(5rem, 12vh, 9rem);
+}
+
+/* ============================================================
+   The rating card. Solid crimson, double off-white border.
+   Off-white #F2EADD on #C0001A ≈ 5.4:1 — AA at all sizes here,
+   but micro print stays decorative anyway.
+   ============================================================ */
+.rating-card {
+  position: relative;
+  background: var(--crimson-deep);
+  border: 3px solid var(--ink);
+  padding: 5px;
+  box-shadow:
+    0 40px 90px -40px rgba(0, 0, 0, 0.9),
+    0 0 110px -30px rgba(var(--crimson-rgb), 0.55);
+}
+.rc-inner {
+  position: relative;
+  border: 1px solid var(--ink);
+  padding: clamp(2.2rem, 6vw, 4.5rem) clamp(1.4rem, 5vw, 4rem) clamp(2rem, 5vw, 3.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.rc-pre {
+  color: var(--ink);
+  opacity: 0.85;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  max-width: 100%;
+}
+.rc-head {
+  font-size: clamp(2.75rem, 8.5vw, 5.5rem);
+  line-height: 0.92;
+  color: var(--ink);
+  margin-block: 0.7rem 1.1rem;
+}
+.rc-sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--step-lead);
+  line-height: 1.45;
+  color: var(--ink);
+  opacity: 0.92;
+  max-width: 44ch;
+  margin-bottom: 2.4rem;
+}
+
+/* ---- the stamp ---- */
+.rc-stamp {
+  position: absolute;
+  top: clamp(1.2rem, 4vw, 2.6rem);
+  right: clamp(1rem, 4vw, 2.6rem);
+  display: inline-flex;
+  align-items: stretch;
+  border: 2px solid var(--ink);
+  background: rgba(0, 0, 0, 0.14);
+  --rest: -4deg;
+}
+.rc-stamp b {
+  display: grid;
+  place-items: center;
+  padding: 0.1em 0.32em;
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  font-weight: 400;
+  color: var(--ink);
+  border-right: 2px solid var(--ink);
+}
+.rc-stamp > span {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.5em 0.9em;
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+/* ---- email row ---- */
+.rc-email {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem 1.4rem;
+  padding-block: 1.4rem;
+  border-top: 1px solid rgba(var(--ink-rgb), 0.55);
+  border-bottom: 1px solid rgba(var(--ink-rgb), 0.55);
+  margin-bottom: 1.8rem;
+}
+.rc-email-link {
+  text-transform: lowercase;
+  font-size: clamp(1.5rem, 4.6vw, 2.9rem);
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  position: relative;
+  overflow-wrap: anywhere;
+}
+.rc-email-link::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0.04em;
+  height: 2px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease-out);
+}
+.rc-email-link:hover::after,
+.rc-email-link:focus-visible::after { transform: scaleX(1); }
+
+.rc-copy {
+  margin-left: auto;
+  padding: 0.6em 1.2em;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--r-pill);
+  color: var(--ink);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  transition: background-color 0.25s var(--ease-out), color 0.25s var(--ease-out);
+}
+.rc-copy:hover,
+.rc-copy:focus-visible { background: var(--ink); color: var(--crimson-deep); }
+/* focus ring needs to survive on crimson */
+.rc-inner :focus-visible { outline-color: var(--ink); }
+
+/* ---- links ---- */
+.rc-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 2rem;
+}
+.rc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+.rc-link span { transition: transform 0.3s var(--ease-out); }
+.rc-link:hover,
+.rc-link:focus-visible { opacity: 1; }
+.rc-link:hover span,
+.rc-link:focus-visible span { transform: translate(2px, -2px); }
+
+/* 720px, not 640: below this the absolute stamp would overlap the
+   'approved for' line */
+@media (max-width: 720px) {
+  .rc-copy { margin-left: 0; }
+  .rc-stamp {
+    position: static;
+    order: 10;
+    align-self: flex-start;
+    margin-bottom: 1.6rem;
+  }
+  .rc-inner { padding-top: 1.8rem; }
+}
