@@ -3,7 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { usePrefersReducedMotion, useHasFinePointer } from '../hooks/useMotionPrefs.js'
 import './Hero.css'
 
-/* Canvas reveal:
+/* Canvas reveal component: handles dynamic mouse coordinates and touch fallback */
    the `bottom` image shows by default and a circle following the
    pointer wipes in the `top` image via source-in. Hardened here with
    DPR scaling, an offscreen canvas reused across frames, pointer
