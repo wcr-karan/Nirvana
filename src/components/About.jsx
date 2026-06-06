@@ -2,7 +2,7 @@ import BrushReveal from './BrushReveal.jsx'
 import Reveal from './Reveal.jsx'
 import './About.css'
 
-/* the credits grammar: role left, names right. OSS gets its own
+/* About cast and technology listing configuration */
    credit pair so a recruiter can't miss it. */
 const CAST = [
   { role: 'Frontend', names: 'React · Tailwind · Framer Motion · TypeScript' },
