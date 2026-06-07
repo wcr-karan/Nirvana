@@ -1,5 +1,6 @@
 # Design
 
+# Nirvana Design System Specification
 Visual system for Karan Thakur's portfolio. Direction: **Cinematic Dark / The One-Sheet Wall** — crimson + gold on warm black. The hero's full-bleed canvas reveal (a poster the cursor wipes away to expose the person beneath) is the centerpiece; everything after it is printed matter from the same film — one-sheet posters, billing blocks, printer's slugs, a rating card. Strategy in [PRODUCT.md](./PRODUCT.md); this is the how-it-looks.
 
 ## Theme
