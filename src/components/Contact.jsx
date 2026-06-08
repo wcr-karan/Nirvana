@@ -11,7 +11,7 @@ const LINKS = [
   { label: 'Résumé', href: 'https://drive.google.com/file/d/1HO0lq8t7sWgtI2rqOGOAYr0w_2szLDuo/view?usp=sharing' },
 ]
 
-/* The finale: an MPAA-style rating card on solid crimson. The stamp
+/* Contact page details, social links and email interaction logic */
    seats itself once the card crosses 60% visibility. */
 export default function Contact() {
   const [copied, setCopied] = useState(false)
