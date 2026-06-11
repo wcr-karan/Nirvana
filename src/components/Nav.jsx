@@ -15,7 +15,7 @@ export default function Nav() {
   const [active, setActive] = useState('')
   const { pathname } = useLocation()
 
-  // transparent over the hero; solid with a gold hairline once scrolling
+  // Transparent over the hero section; applies border on scroll event
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 40)
     on()
