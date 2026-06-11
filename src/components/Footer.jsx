@@ -1,8 +1,8 @@
 import Reveal from './Reveal.jsx'
 import './Footer.css'
 
-/* Billing block footer with signature return slug */
-   crosses, and the one bumper line. */
+/* Billing block footer with signature return slug 
+crosses, and the one bumper line. */
 export default function Footer() {
   return (
     <footer className="footer">
