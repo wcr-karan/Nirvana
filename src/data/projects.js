@@ -1,4 +1,4 @@
-/* projects.js - Portfolio project database structure */
+/* projects.js - Portfolio project database structure
    projects.js — real projects from Karan's resume.
    `github` / `demo` are placeholders ('#') until the working
    links are provided.
